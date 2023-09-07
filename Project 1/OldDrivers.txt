@@ -1,0 +1,140 @@
+
+/*
+    m = theMaze.getStartLocation();
+    locStack.push(m);
+    m.iterationBegin();
+     */
+
+/*
+int main() {
+
+    Maze theMaze;
+    LocationStack locStack;
+    Location startLoc, neighbor, m;
+    bool solutionFound = true;
+
+    cin >> theMaze;
+
+    startLoc = theMaze.getStartLocation();
+    locStack.push(startLoc);
+
+    while(!theMaze.isEndLocation(locStack.getTop()) && solutionFound == true){
+        m = locStack.getTop();
+        locStack.pop();
+
+        if(!m.iterationDone()){
+            neighbor = m.iterationCurrent();
+            neighbor.iterationBegin();
+            m.iterationAdvance();
+            locStack.push(m);
+
+            if(theMaze.isValidLocation(neighbor) && !locStack.isOn(neighbor)){
+                locStack.push(neighbor);
+            }
+        }
+        else{
+            locStack.pop();
+            if(locStack.isEmpty()){
+                solutionFound = false;
+            }
+        }
+    }
+
+    if(solutionFound) {
+        cout << "Solution found" << endl;
+        cout << locStack;
+    }
+    else{
+        cout << "No Solution" << endl;
+    }
+    return 0;
+}
+*/
+
+int main() {
+
+    Maze theMaze;
+    LocationStack locStack;
+    Location neighbor, m;
+    bool solutionFound = true;
+
+    cin >> theMaze;
+
+    m = theMaze.getStartLocation();
+    locStack.push(m);
+
+    while (!theMaze.isEndLocation(locStack.getTop()) && solutionFound == true) {
+        m = locStack.getTop();
+        locStack.pop();
+
+        if (!m.iterationDone()) {
+            neighbor = m.iterationCurrent();
+            neighbor.iterationBegin();
+            m.iterationAdvance();
+            locStack.push(m);
+
+            if (theMaze.isValidLocation(neighbor) && !locStack.isOn(neighbor)) {
+                locStack.push(neighbor);
+            }
+        } else {
+            locStack.pop();
+            if (locStack.isEmpty()) {
+                solutionFound = false;
+            }
+        }
+    }
+
+    if (solutionFound) {
+        cout << "Solution found" << endl;
+        cout << locStack;
+    } else {
+        cout << "No Solution" << endl;
+    }
+    return 0;
+}
+
+
+/* W
+int main() {
+    Maze maze;
+    Location m;
+    Location neighbor;
+    LocationStack stack;
+    bool NoSolution = false;
+
+    cin >> maze;
+
+    m = maze.getStartLocation();
+    stack.push(m);
+
+    while (!NoSolution && !maze.isEndLocation(stack.getTop())) {
+        m = stack.getTop();
+        stack.pop();
+        if (!m.iterationDone()) {
+            neighbor = m.iterationCurrent();
+            neighbor.iterationBegin();
+            m.iterationAdvance();
+            stack.push(m);
+            if (!stack.isOn(neighbor) && maze.isValidLocation(neighbor)) {
+                stack.push(neighbor);
+            }
+            //cout << stack << endl << endl;
+            //cout << "n = " << neighbor << endl;
+        }
+        else if (stack.isEmpty()) {
+            NoSolution = true;
+        }
+    }
+
+    if (!NoSolution) {
+        cout << "Solution found" << endl;
+        cout << stack;
+    }
+    else {
+        cout << "No solution" << endl;
+    }
+
+
+    return 0;
+}
+*/
