@@ -1,0 +1,153 @@
+/* test tree
+ *     1
+     2   3
+   4 5   6 7
+   */
+
+
+
+    BSTNode<int> *b1 = new BSTNode<int>(4);
+    BSTNode<int> *b2 = new BSTNode<int>(5);
+    BSTNode<int> *b3 = new BSTNode<int>(6);
+    BSTNode<int> *b4 = new BSTNode<int>(7);
+
+    BSTNode<int> *a1 = new BSTNode<int>(2, b1, b2);
+    BSTNode<int> *a2 = new BSTNode<int>(3, b3, b4);
+    BSTNode<int> *root = new BSTNode<int>(1, a1, a2);
+
+
+    cout << "Min Node (should be 4): " << root->minNode()->getData() << endl;
+    cout << "Max Node (should be 7): " << root->maxNode()->getData() << endl << endl;
+    root->printPreorder(cout, "  ");
+    cout << endl;
+
+
+    // Test tree 2
+
+    BSTNode<string> *cc1 = new BSTNode<string>("years");
+
+    BSTNode<string> *bb1 = new BSTNode<string>("ago");
+    BSTNode<string> *bb2 = new BSTNode<string>("seven", nullptr, cc1);
+
+    BSTNode<string> *aa1 = new BSTNode<string>("and", bb1, nullptr);
+    BSTNode<string> *aa2 = new BSTNode<string>("score", nullptr, bb2);
+
+    BSTNode<string> *rroot = new BSTNode<string>("four", aa1, aa2);
+
+    cout << "tree 2:" << endl << endl;
+    rroot->printPreorder();
+
+    //Test Tree 3
+    BST<int> tree;
+
+    tree.insert(5);
+    tree.insert(7);
+    tree.insert(10);
+    tree.insert(8);
+    tree.insert(2);
+
+   // tree.printPreorder(cout);
+
+
+   //string stream tests
+   /*
+       stringstream ss;
+       string x, y;
+       ss.clear();
+
+       //d 'r100 r0100 r100000 r00 r01011'
+       cin >> x;
+
+       getline(cin, y, '\'');
+       getline(cin, y, '\'');
+
+       //y = y.substr(1, y.size() - 1);
+
+       cout << "x: " << x << endl;
+       cout << "y: " << y;
+       //ss.str(x);
+
+       //cout << ss.str();
+   */
+//Encryption tree tests
+
+/*
+    EncryptionTree<string> test1;
+
+    test1.insert("hello");
+    test1.insert("world");
+    test1.insert("im");
+    test1.insert("chas");
+    test1.insert("zebra");
+    test1.insert("xord");
+    test1.insert("zz");
+    test1.insert("alexander");
+
+    test1.printPreorder(cout);
+
+    //test1.remove("doughtry");
+    test1.remove("hello");
+    //test1.remove("chas");
+
+    cout << endl;
+    cout <<"//////////////////////////////////////" << endl;
+    test1.printPreorder(cout);
+
+
+    cout << test1.encrypt("hello") << " ";
+    cout << test1.encrypt("world") << " ";
+    cout << test1.encrypt("im") << " ";
+    cout << test1.encrypt("chas") << " ";
+    cout << test1.encrypt("error") << " ";
+
+
+    cout << endl;
+
+    cout << *(test1.decrypt("r")) << " (should be Hello)" << endl;
+    cout << *(test1.decrypt("r1")) << " (should be world)" << endl;
+    cout << *(test1.decrypt("r10")) << " (should be Im)" << endl;
+    //cout << *(test1.decrypt("r0")) << " (should be Chas)" << endl;
+
+    cout << *(test1.decrypt("r10")) << " (should be Im)" << endl;
+    cout << *(test1.decrypt("r1")) << " (should be world)" << endl;
+    //cout << *(test1.decrypt("r0")) << " (should be Chas)" << endl;
+    cout << *(test1.decrypt("r")) << " (should be Hello)" << endl;
+
+*/
+
+//old decrypt
+/*
+    assert(path[0] == 'r');
+    BSTNode<Base> const *temp = this->root;
+    bool valid = true;
+
+        if (path != "r") {
+            for (unsigned int i = 1; i < path.length(); ++i) {
+                if (path.at(i) == '1') {
+                    if(temp->getRight() != NULL) {
+                        temp = temp->getRight();
+                    }
+                    else{
+                        valid = false;
+                        i = path.length();
+                    }
+                } else {
+                    if(temp->getLeft() != NULL) {
+                        temp = temp->getLeft();
+                    }
+                    else{
+                        valid = false;
+                        i = path.length();
+                    }
+                }
+            }
+        }
+
+
+    //if(temp == NULL){
+    if(!valid){
+        return NULL;
+    }
+
+    return &temp->getData();
+    */
