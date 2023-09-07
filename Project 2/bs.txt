@@ -1,0 +1,262 @@
+int main() {
+
+    Maze theMaze;
+    Location L, neighbor, curr, endLoc;
+    ArrayQueue<Location> q;
+    map<Location, Location> prevMap; //<Location, previousLocation> stores// previous links for bfs
+    map<Location, Location>:: iterator prevItr; //previous map iterator
+    stack <Location> pathStck; //Stack of locations to output solution
+    bool isFound = false, pathFound = false, isOn;
+
+    cin >> theMaze;
+
+    /*
+    L = theMaze.getStartLocation();
+    //L.iterationBegin();
+    q.add(L);
+
+    if(theMaze.isEndLocation(L)){
+        isFound = true;
+    }
+
+
+    while(!isFound && q.getLength() > 0){
+        L = q.getFront();
+        L.iterationBegin();
+        q.remove();
+        while(!L.iterationDone()){
+            neighbor = L.iterationCurrent();
+            L.iterationAdvance();
+            //valid neighbor and not on map
+            //then add to map and queue
+            if(theMaze.isValidLocation(neighbor)){
+                if(prevMap.find(neighbor) == prevMap.end()) {
+                    q.add(neighbor);
+                    prevMap[neighbor] = q.getFront();
+                }
+                if(theMaze.isEndLocation(neighbor)){
+                    pathStck.push(neighbor);
+                    //curr = neighbor;
+                    isFound = true;
+                }
+            }
+        }
+    }
+
+
+
+    while(!isFound && q.getLength() > 0){
+        L = q.getFront();
+        q.remove();
+        L.iterationBegin();
+        while(!L.iterationDone()){
+            neighbor = L.iterationCurrent();
+            L.iterationAdvance();
+            if(theMaze.isEndLocation(neighbor)){
+                pathStck.push(neighbor);
+                //curr = neighbor;
+                isFound = true;
+                prevMap[neighbor] = L;
+                L = neighbor;
+            }
+            else if(theMaze.isValidLocation(neighbor) && prevMap.find(neighbor)
+            == prevMap.end()){
+                q.add(neighbor);
+                prevMap[neighbor] = L;
+            }
+        }
+
+    }
+*/
+    // /////////////////////GC
+
+    L = theMaze.getStartLocation();
+    L.iterationBegin();
+    q.add(L);
+    prevMap[L] = L;
+
+    while(q.getLength() > 0 && !isFound) {
+        L = q.getFront();
+        for (L.iterationBegin(); !L.iterationDone(); L.iterationAdvance()) {
+            neighbor = L.iterationCurrent();
+            neighbor.iterationBegin();
+            if (theMaze.isValidLocation(neighbor)) {
+                if(theMaze.isEndLocation(neighbor)) {
+                    pathStck.push(L);
+                    prevMap[neighbor] = L;
+                    isFound = true;
+                }
+                if(prevMap.find(neighbor) == prevMap.end()){
+                    prevMap[neighbor] = L;
+                    q.add(L);
+                }
+
+            }
+        }
+
+        q.remove();
+    }
+
+    if (isFound) {
+        cout << "Solution found" << endl;
+
+        /*
+       while(!pathFound) {
+           for (prevItr = prevMap.begin(); prevItr != prevMap.end(); prevItr++) {
+               if (prevItr->first == curr) {
+                   pathStck.push(prevItr->first);
+                   if (prevItr->first == theMaze.getStartLocation()) {
+                       pathFound = true;
+                   }
+                   curr = prevItr->second;
+               }
+           }
+       }
+         */
+        /*
+        while(!pathFound){
+            for (prevItr = prevMap.begin(); prevItr != prevMap.end(); prevItr++) {
+                if(pathStck.top() == prevItr->first){
+                    pathStck.push(prevItr->second);
+                    if(prevItr->second == theMaze.getStartLocation()){
+                        pathFound = true;
+                    }
+                }
+            }
+        }
+*/
+
+        //GC
+        while(!pathFound){
+            for (prevItr = prevMap.begin(); prevItr != prevMap.end(); prevItr++) {
+                if(prevItr->second == endLoc){
+                    cout << prevItr->first;
+                    endLoc = prevItr->first;
+                }
+            }
+        }
+
+       while(!pathStck.empty()){
+           cout << pathStck.top() << endl;
+           pathStck.pop();
+       }
+    }
+    else {
+        cout << "No solution" << endl;
+    }
+
+    return 0;
+}
+
+//2
+
+/* CSI 3334
+ * Project 2 -- Word Melt Shortest-Path Solver
+ * Filename: driver-proj2.cpp
+ * Student name: Chas Doughtry
+ * Assignment: Project 2
+ * Due Date: February 17, 2023
+ * This file implements code that uses a BFS algorithm
+ * to solve the shortest path for a word maze.
+ */
+
+#include <iostream>
+#include <map>
+#include <stack>
+#include <vector>
+#include "location-proj2.h"
+#include "maze-proj2.h"
+#include "arrayqueue-student-proj2.h"
+
+/* main
+ *  parameters: none
+ *  return value: 0 (indicating a successful run)
+ *
+ *  Main function reads in a maze type from user input. A while loop
+ *  used to traverse the maze and add locations on to an ArrayQueue to
+ *  store the locations as a BFS. If a solution is found, each word in the
+ *  path is printed in order from start point to end point. Otherwise,
+ *  "No solution" is printed.
+ */
+
+int main(){
+    Location L, neighbor, endLocation;
+    map<Location, Location> prevMap, pathMap;
+    map<Location, Location>::iterator mapItr;
+    ArrayQueue<Location> q;
+    Maze theMaze;
+    bool isOn,isFound = false, pathFound = false;
+    stack<Location>pathStk;
+
+    cin >> theMaze;
+
+    L = theMaze.getStartLocation();
+    L.iterationBegin();
+    q.add(L);
+    prevMap[L] = L;
+
+    while(q.getLength() > 0 && !isFound) {
+        L = q.getFront();
+        for (L.iterationBegin(); !L.iterationDone(); L.iterationAdvance()) {
+            neighbor = L.iterationCurrent();
+            neighbor.iterationBegin();
+            if (theMaze.isValidLocation(neighbor)) {
+                if(theMaze.isEndLocation(neighbor)) {
+                    pathStck.push(L);
+                    prevMap[neighbor] = L;
+                    isFound = true;
+                }
+                if(prevMap.find(neighbor) == prevMap.end()){
+                    prevMap[neighbor] = L;
+                    q.add(L);
+                }
+
+            }
+        }
+
+        q.remove();
+    }
+
+    if(isFound){
+        cout << "Solution found" << endl;
+
+        //creates path in pathMap
+        while(!pathFound){
+            for(mapItr = prevMap.begin(); mapItr != prevMap.end(); ++mapItr){
+                if(mapItr->first == endLocation){
+                    pathStk.push(mapItr->first);
+                    if(mapItr->first == userMaze.getStartLocation()){
+                        pathFound = true;
+                    }
+                    endLocation = mapItr->second;
+                }
+
+            }
+        }
+
+        /*
+        endLocation = userMaze.getStartLocation();
+        cout << endLocation;
+        pathMap.erase(endLocation);
+
+        for(int i = 0; i < pathMap.size(); ++i){
+            for(mapItr = pathMap.begin(); mapItr != pathMap.end(); ++mapItr){
+                if(mapItr->second == endLocation){
+                    cout << mapItr->first;
+                    endLocation = mapItr->first;
+                }
+            }
+        }
+         */
+        while(!pathStk.empty()){
+            cout << pathStk.top() << endl;
+            pathStk.pop();
+        }
+    }
+    else{
+        cout << "No solution" << endl;
+    }
+
+    return 0;
+}
+

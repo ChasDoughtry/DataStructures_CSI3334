@@ -1,0 +1,123 @@
+/* CSI 3334
+ * Project 1 -- DFS Maze Solver
+ * Filename: driver-proj2.cpp
+ * Student name: Chas Doughtry
+ * Assignment: Project 2
+ * Due Date: February 17, 2023
+ * This file tests the arrayQueue, location and maze functions.
+ */
+
+#include <iostream>
+#include "location-proj2.h"
+#include "maze-proj2.h"
+#include "arrayqueue-student-proj2.h"
+
+int main() {
+
+    /* Location and maze class testing
+    Maze theMaze;
+    Location A;
+    Location B;
+
+    cin >> theMaze;
+
+    cin >> A >> B;
+
+    //Testing == operator
+    if(A == B){
+        cout << "A & B are equal" << endl;
+    }
+
+    if(theMaze.isValidLocation(A)) {
+        cout << "A is valid" << endl;
+    }
+    //
+    for (A.iterationBegin(); !A.iterationDone(); A.iterationAdvance()) {
+        cout << A.iterationCurrent() << endl;
+    }
+    //
+    cout << endl;
+
+    //Testing >>  and << operator
+    cin >> A;
+    cout << "New A: " << A;
+    */
+
+    ArrayQueue<int> q;
+
+
+    for(int i = 0; i < 15; i++){
+        q.add(i);
+        cout << "L: " << q.getLength() << endl;
+    }
+
+    ArrayQueue<int> q2(q);
+
+    for(int i = 0; i < 15; i++){
+        q.remove();
+        cout << "F: " << q.getFront() << endl;
+    }
+
+    return 0;
+}
+
+
+/////////////////////////////////Ws
+
+
+
+int main() {
+    Maze maze;
+    Location location;
+    ArrayQueue<Location> queueLoc;
+    bool endFound = false;
+    vector <Location> printOrder;
+    map<Location, Location> map;
+
+    cin >> maze;
+
+    location = maze.getStartLocation();
+
+    queueLoc.add(location);
+
+    if (maze.isEndLocation(location)) {
+        endFound = true;
+    }
+    while (!endFound && queueLoc.getLength() > 0) {
+        location = queueLoc.getFront();
+        queueLoc.remove();
+        location.iterationBegin();
+        while (!endFound && !location.iterationDone()) {
+            Location temp = location.iterationCurrent();
+            if (maze.isEndLocation(temp)) {
+                endFound = true;
+                map[temp] = location;
+                location = temp;
+            }
+            else if (maze.isValidLocation(temp) && map.find(temp) == map.end()) {
+                queueLoc.add(temp);
+                map[temp] = location;
+            }
+            location.iterationAdvance();
+        }
+    }
+
+
+    if (endFound) {
+        cout << "Solution found" << endl;
+        for (int i = 0; !(location == maze.getStartLocation()); i++) {
+            printOrder.push_back(location);
+            location = map[location];
+        }
+        printOrder.push_back(maze.getStartLocation());
+
+        for (int i = printOrder.size()-1; i >= 0; i--) {
+            cout << printOrder[i] << endl;
+        }
+    }
+    else {
+        cout << "No solution" << endl;
+    }
+
+    return 0;
+}

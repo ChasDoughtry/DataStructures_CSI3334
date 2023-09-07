@@ -1,0 +1,172 @@
+/* CSI 3334
+ * Project 2 -- Word Melt Shortest-Path Solver
+ * Filename: arrayqueue-student-proj2.h
+ * Student name: Chas Doughtry
+ * Assignment: Project 2
+ * Due Date: February 17, 2023
+ * This file implements tbe ArrayQueue<T> class methods.
+ */
+
+#ifndef PROJECT_2_ARRAYQUEUE_STUDENT_PROJ2_H
+#define PROJECT_2_ARRAYQUEUE_STUDENT_PROJ2_H
+
+#include "arrayqueue-prof-proj2.h"
+#include <cassert>
+
+
+/* ArrayQueue<T> constructor
+ *  parameters: none
+ *  Initializes data members to their default initial
+ *  values and allocates memory for data array
+ */
+template <class Base>
+ArrayQueue<Base>::ArrayQueue(){
+    front = 0;
+    length = 0;
+    capacity = 10;
+    data = new Base[capacity];
+}
+
+/* ArrayQueue<T> copy constructor
+ *  parameters: q - ArrayQueue<T> to be copied
+ *
+ *  Assigns this objects data members to equal q's data
+ *  members. Then copies q's data array into this object's
+ */
+template <class Base>
+ArrayQueue<Base>::ArrayQueue(const ArrayQueue<Base> &q){
+    this->capacity = q.capacity;
+    this->length = q.length;
+    //this->front = q.front;
+    this->data = new Base[this->capacity];
+
+    for (int i = 0; i < this->capacity; i++) {
+        this->data[i] = q.data[i];
+    }
+}
+
+/* LocationStack Destructor
+ * parameters: none
+ * Deletes data array and resets data members.
+ */
+template <class Base>
+ArrayQueue<Base>::~ArrayQueue(){
+    delete[] data;
+    /*
+    front = 0;
+    length = 0;
+    capacity = 10;
+     */
+}
+
+/* add
+ *  parameters:
+ *      item - Base type to be added to the array
+ *
+ *  This function doubles capacity if necessary, then
+ *  adds item to the array.
+ */
+template <class Base>
+void ArrayQueue<Base>::add(const Base &item){
+
+    if(length >= capacity){
+        this->doubleCapacity();
+    }
+
+    data[(front + length) % capacity] = item;
+    length++;
+
+}
+
+/* remove
+ * parameters: none
+ *
+ * This function removes the front item from the
+ * array by decreasing length and incrementing front
+ */
+template <class Base>
+void ArrayQueue<Base>::remove(){
+    //assert(length != 0);
+
+    if(length != 0) {
+        front = (front + 1)% capacity;
+        length -= 1;
+    }
+}
+
+/* getFront
+ *  parameters: none
+ *  return value: Returns the item at the front of
+ *                the array
+ *  Returns location data member of the front item
+ */
+template <class Base>
+const Base & ArrayQueue<Base>::getFront() const{
+    assert(length > 0);
+    return data[front];
+}
+/* getLength
+ *  parameters: none
+ *  return value: Returns the length of the data array
+ *
+ *  Returns an integer representing the number of items
+ *   in the array.
+ */
+template <class Base>
+int ArrayQueue<Base>::getLength() const{
+    return length;
+}
+
+/* = operator
+ *  parameters: q - ArrayQueue<T> to be compared
+ *  return value: Copies the data members of q into
+ *                this object's.
+ *
+ *  Assigns this objects data members to equal q's data
+ *  members. Then copies q's data array into this object's
+ */
+template <class Base>
+const ArrayQueue<Base>& ArrayQueue<Base>::operator=(const ArrayQueue<Base> &q){
+
+    if(this != &q){
+        delete[] this->data;
+
+        this->capacity = q.capacity;
+        this->length = q.length;
+        this->front = q.front;
+
+        this->data = new Base[this->capacity];
+
+        for(int i = 0; i < this->capacity; ++i){
+            this->data[i] = q.data[i];
+        }
+    }
+    return *this;
+}
+
+/* doubleCapacity
+ *  parameters: none
+ *  return value: doubles the capacity of
+ *                the data array.
+ *
+ *  This function is used when the data array is full
+ *  and another item must be added.
+ */
+template <class Base>
+void ArrayQueue<Base>::doubleCapacity(){
+
+    capacity *= 2;
+    Base* temp = this->data;
+
+    delete[] data;
+    data = new Base[capacity];
+
+    for(int i = 0; i < length; ++i){
+        data[i] = temp[i];
+    }
+    delete[] temp;
+    front = 0;
+}
+
+
+#endif //PROJECT_2_ARRAYQUEUE_STUDENT_PROJ2_H
