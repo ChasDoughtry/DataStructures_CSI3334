@@ -1,0 +1,5 @@
+4
+dallas_server waco_server 3
+dallas_server a_server 4
+dallas_server b_server 4
+dallas_server c_server 4

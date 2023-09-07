@@ -1,0 +1,142 @@
+//make avlnode methods public
+
+AVLNode<int> *b4, *b3, *b2, *b1, *a2, *a1, *r;
+
+    a2 = new AVLNode<int>(3);
+    b4 = new AVLNode<int>(7, a2, NULL);
+    b3 = new AVLNode<int>(6, NULL, b4);
+
+
+    a1 = new AVLNode<int>(2);
+    b1 = new AVLNode<int>(4, NULL, a1);
+    b2 = new AVLNode<int>(5, b1,NULL);
+
+    r = new AVLNode<int>(1, b2, b3);
+
+    r->printPreorder();
+
+    cout << " /////////" << endl;
+
+    r->left = b2->doubleRotateLeftRight();
+    r->right = b3->doubleRotateRightLeft();
+
+    r->printPreorder();
+
+//old print level
+/*
+    if(root != NULL) {
+        queue<AVLNode<Base> *> q;
+        int levelCnt, max20;
+
+        q.push(root);
+
+        while (!q.empty()) {
+
+            levelCnt = q.size();//number of nodes at this level
+            max20 = 0;//counts the number of nodes printed on the line
+            while (levelCnt > 0) {
+                os << q.front()->data << " ";
+                max20++;
+
+                if(max20 >= 20){ //creates a newline if 20 level exceeds 20 nodes
+                    os << endl;
+                    max20 = 0;
+                }
+
+                if (q.front()->left != NULL) {
+                    q.push(q.front()->left);
+                }
+                if (q.front()->right != NULL) {
+                    q.push(q.front()->right);
+                }
+                levelCnt--;
+                q.pop();
+            }
+            cout << endl;
+        }
+    }
+    */
+
+    /* Old rebalance to root
+    for(int i = path.size() - 1; i >= 0; --i){
+            AVLNode<Base> *curr = path.at(i);
+            //if(abs(getHeight(path.at(i)->left) - getHeight(path.at(i)->right)) > 1){
+            /*if(abs(path.at(i)->getHeight(path.at(i)->left) -
+               path.at(i)->getHeight(path.at(i)->right)) > 1){
+            int diff = abs(curr->getHeight(curr->left) - curr->getHeight(curr->right));
+            cout << "diff: " << diff << endl;*/
+            if(abs(curr->getHeight(curr->left) -
+                   curr->getHeight(curr->right)) > 1){
+                AVLNode<Base>* parent;
+
+                if(i > 0){ //not at the root
+                    parent = path.at(i-1);
+                }
+                if(path.at(i)->left != NULL && path.at(i)->right != NULL){
+                    if(path.at(i)->left->left == NULL){
+                        if(0 == i){
+                            this->root = curr->singleRotateLeft();
+                        } else if(parent->left == path.at(i)){
+                            parent->left = curr->singleRotateLeft();
+                        } else {
+                            parent->right = curr->singleRotateLeft();
+                        }
+
+                    } else{
+                        if(0 == i){
+                            this->root = curr->singleRotateRight();
+                        } else if(parent->left == path.at(i)){
+                            parent->left = curr->singleRotateRight();
+                        } else {
+                            parent->right = curr->singleRotateRight();
+                        }
+                    }
+                }
+                else if(path.at(i)->left != NULL){
+                    if(path.at(i)->left->left != NULL){                 //Left-left imbalance
+                        //AVLNode<Base>* nodeChange = path.at(i)->singleRotateRight;
+                        if(0 == i){ //at root
+                            this->root = curr->singleRotateRight();
+                        } else if(parent->left == path.at(i)){
+                            parent->left = curr->singleRotateRight();
+                        } else{
+                            parent->right = curr->singleRotateRight();
+                        }
+
+                    } else{                                             //left-right imbalance
+                        if(0 == i){ //at root
+                            this->root = curr->doubleRotateLeftRight();
+                        }
+                        else if(parent->left == path.at(i)){
+                            parent->left = curr->doubleRotateLeftRight();
+                        } else{
+                            parent->right = curr->doubleRotateLeftRight();
+                        }
+
+                    }
+
+                }
+                else if(path.at(i)->right != NULL) {
+                        if(path.at(i)->right->right != NULL){           //right-right imbalance
+                            if(0 == i) { //root
+                                this->root = path.at(i)->singleRotateLeft();
+                            } else if(parent->left == path.at(i)){
+                                parent->left = curr->singleRotateLeft();
+                            } else {
+                                parent->right = curr->singleRotateLeft();
+                            }
+
+                        } else{                                         //right-left imbalance
+                            if(0 == i) { //root
+                                this->root = path.at(i)->doubleRotateRightLeft();
+                            } else if(parent->left == path.at(i)){
+                                parent->left = curr->doubleRotateRightLeft();
+                            } else {
+                                parent->right = curr->doubleRotateRightLeft();
+                            }
+
+                        }
+                }
+            }
+        }
+        */
